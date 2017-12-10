@@ -28,4 +28,4 @@
 - name: Start remote_syslog
   systemd:
     state: started
-    name: remote_syslog                                                                                                                   
+    name: remote_syslog
