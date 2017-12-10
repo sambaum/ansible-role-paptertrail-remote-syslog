@@ -1,0 +1,9 @@
+---
+# defaults file for ansible-role-paptertrail-remote-syslog
+remote_syslog2_version: "0.19" # Check https://github.com/papertrail/remote_syslog2/releases/latest for latest release
+remote_syslog2_user: root
+remote_syslog2_group: root
+remote_syslog2_destination: 
+remote_syslog2_port:
+remote_syslog2_protocol: tls
+remote_syslog2_files:

@@ -1,0 +1,31 @@
+---
+- name: Install remote_syslog .deb package from the internet.
+  apt:
+    deb: "https://github.com/papertrail/remote_syslog2/releases/download/v{{ remote_syslog2_version }}/remote-syslog2_{{ remote_syslog2_version }}_amd64.deb"
+
+- name: Configuring remote_syslog
+  template:
+    src: templates/log_files.yml.j2
+    dest: /etc/log_files.yml
+    owner: "{{ remote_syslog2_user }}"
+    group: "{{ remote_syslog2_group }}"
+    mode: 0644
+
+- name: Configuring systemd
+  template:
+    src: templates/remote_syslog.systemd.service.j2
+    dest: /etc/systemd/system/remote_syslog.service
+    owner: "{{ remote_syslog2_user }}"
+    group: "{{ remote_syslog2_group }}"
+    mode: 0644
+
+- name: Enable Service remote_syslog
+  systemd:
+    name: remote_syslog
+    enabled: yes
+    masked: no
+
+- name: Start remote_syslog
+  systemd:
+    state: started
+    name: remote_syslog                                                                                                                   

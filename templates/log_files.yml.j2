@@ -1,0 +1,9 @@
+files:
+{% for file in remote_syslog2_files %}
+  - {{ file }}
+{% endfor %}
+destination:
+  host: logs6.papertrailapp.com
+  port: 28648
+  protocol: tls
+pid_file: /var/run/remote_syslog.pid
