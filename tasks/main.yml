@@ -10,6 +10,7 @@
     owner: "{{ remote_syslog2_user }}"
     group: "{{ remote_syslog2_group }}"
     mode: 0644
+  when: remote_syslog2_files is defined and remote_syslog2_files != ""
 
 - name: Configuring systemd
   template:
@@ -19,13 +20,13 @@
     group: "{{ remote_syslog2_group }}"
     mode: 0644
 
-- name: Enable Service remote_syslog
+- name: enable service remote_syslog
   systemd:
-    name: remote_syslog
+    name: remote_syslog.service
     enabled: yes
-    masked: no
 
-- name: Start remote_syslog
+- name: make sure remote_syslog is running
   systemd:
+    name: remote_syslog.service
     state: started
-    name: remote_syslog
+

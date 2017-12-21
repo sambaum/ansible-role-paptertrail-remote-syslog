@@ -6,4 +6,4 @@ remote_syslog2_group: root
 remote_syslog2_destination: 
 remote_syslog2_port:
 remote_syslog2_protocol: tls
-remote_syslog2_files:
+remote_syslog2_files: []
