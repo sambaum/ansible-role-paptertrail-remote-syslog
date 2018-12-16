@@ -3,7 +3,7 @@ files:
   - {{ file }}
 {% endfor %}
 destination:
-  host: logs6.papertrailapp.com
-  port: 28648
+  host: {{ remote_syslog2_destination }}
+  port: {{ remote_syslog2_port }}
   protocol: tls
 pid_file: /var/run/remote_syslog.pid
