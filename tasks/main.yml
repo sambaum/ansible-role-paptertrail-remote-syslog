@@ -11,7 +11,7 @@
     group: "{{ remote_syslog2_group }}"
     mode: 0644
   when: remote_syslog2_files is defined and remote_syslog2_files != ""
-  notify: Restart remote_syslog 
+  notify: Restart remote_syslog
 
 - name: Configuring systemd
   template:
@@ -30,4 +30,11 @@
   systemd:
     name: remote_syslog.service
     state: started
+
+- name: Configure RateLimit
+  replace:
+    path: /etc/rsyslog.conf
+    regexp: '^(module\(load="imuxsock")(.*)(\).*)$'
+    replace: '\1\2 SysSock.RateLimit.Interval="5" SysSock.RateLimit.Burst="200" \3'
+  notify: Restart remote_syslog
 
