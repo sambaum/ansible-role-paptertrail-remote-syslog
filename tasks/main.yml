@@ -31,10 +31,8 @@
     name: remote_syslog.service
     state: started
 
-- name: Configure RateLimit
-  replace:
+- name: Update imuxsock module line with rate limit parameters
+  lineinfile:
     path: /etc/rsyslog.conf
-    regexp: '^(module\(load="imuxsock")(.*)(\).*)$'
-    replace: '\1\2 SysSock.RateLimit.Interval="5" SysSock.RateLimit.Burst="200" \3'
-  notify: Restart remote_syslog
-
+    regexp: '^module\(load="imuxsock"\)'
+    line: 'module(load="imuxsock" SysSock.RateLimit.Interval="5" SysSock.RateLimit.Burst="200") # provides support for local system logging'
