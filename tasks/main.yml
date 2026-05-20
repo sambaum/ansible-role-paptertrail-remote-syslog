@@ -1,10 +1,10 @@
 ---
 - name: Install remote_syslog .deb package from the internet.
-  apt:
+  ansible.builtin.apt:
     deb: "https://github.com/papertrail/remote_syslog2/releases/download/v{{ remote_syslog2_version }}/remote-syslog2_{{ remote_syslog2_version }}_amd64.deb"
 
 - name: Configuring remote_syslog
-  template:
+  ansible.builtin.template:
     src: templates/log_files.yml.j2
     dest: /etc/log_files.yml
     owner: "{{ remote_syslog2_user }}"
@@ -14,7 +14,7 @@
   notify: Restart remote_syslog
 
 - name: Configuring systemd
-  template:
+  ansible.builtin.template:
     src: templates/remote_syslog.systemd.service.j2
     dest: /etc/systemd/system/remote_syslog.service
     owner: "{{ remote_syslog2_user }}"
@@ -22,17 +22,17 @@
     mode: 0644
 
 - name: enable service remote_syslog
-  systemd:
+  ansible.builtin.systemd:
     name: remote_syslog.service
-    enabled: yes
+    enabled: true
 
 - name: make sure remote_syslog is running
-  systemd:
+  ansible.builtin.systemd:
     name: remote_syslog.service
     state: started
 
 - name: Update imuxsock module line with rate limit parameters
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/rsyslog.conf
     regexp: '^module\(load="imuxsock"\)'
     line: 'module(load="imuxsock" SysSock.RateLimit.Interval="5" SysSock.RateLimit.Burst="200") # provides support for local system logging'
